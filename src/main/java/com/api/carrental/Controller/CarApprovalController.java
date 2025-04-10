@@ -12,7 +12,6 @@ import com.api.carrental.Service.CarApprovalService;
 import com.api.carrental.Service.CarService;
 import com.api.carrental.Service.ManagerService;
 import com.api.carrental.model.Car;
-import com.api.carrental.enums.CarStatus;
 import com.api.carrental.model.CarApproval;
 import com.api.carrental.model.Manager;
 
@@ -34,10 +33,9 @@ public class CarApprovalController {
 	public CarApproval add(@RequestBody CarApproval carApproval,
 			@PathVariable int carId, @PathVariable int managerId) throws InvalidIDException {
 		Manager manager = managerService.getById(managerId);
-		Car car = carService.getById(carId);
+		Car car = carService.getCarById(carId);
 		carApproval.setCar(car);
 		carApproval.setManager(manager);
-		car.setCarStatus(CarStatus.APPROVED);
 		carApproval = carApprovalService.add(carApproval);
 		
 		return carApproval;

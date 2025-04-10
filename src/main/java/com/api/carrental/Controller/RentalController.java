@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.carrental.Exception.InvalidIDException;
 import com.api.carrental.Service.AuthService;
 import com.api.carrental.Service.CarService;
 import com.api.carrental.Service.RentalService;
@@ -30,9 +31,9 @@ public class RentalController {
 	
 	@PostMapping("/add/{carId}")
 	public Rental add(@PathVariable int carId, Principal principal, 
-			@RequestBody Rental rental) {
+			@RequestBody Rental rental) throws InvalidIDException {
 		User user = authService.getByUsername(principal.getName());
-		Car car = carService.getById(carId);
+		Car car = carService.getCarById(carId);
 		rental.setCar(car);
 		rental.setUser(user);
 		return rentalService.add(rental);

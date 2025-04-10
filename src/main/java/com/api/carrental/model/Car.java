@@ -1,26 +1,23 @@
 package com.api.carrental.model;
- 
 
-import com.api.carrental.enums.CarStatus;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "cars")
 public class Car {
+
+    public enum CarStatus {
+        AVAILABLE,
+        RENTED_OUT,
+        MAINTENANCE
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int carId;
 
     @Column(nullable = false)
-    private String model;;
+    private String model;
 
     @Column(nullable = false)
     private String year;
@@ -39,15 +36,67 @@ public class Car {
 
     @Column(nullable = false)
     private String mileage;
-    
-    @ManyToOne
-    private User carOwner;
-    
+
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private CarStatus carStatus;
-
     
+    @Column(nullable = false)
+    private double dailyRate;
 
+    private Double weeklyRate;
+
+    private Double monthlyRate;
+
+    @Column(nullable = false)
+    private double securityDeposit;
+
+    private String additionalFees;
+    
+    public double getDailyRate() {
+		return dailyRate;
+	}
+
+	public void setDailyRate(double dailyRate) {
+		this.dailyRate = dailyRate;
+	}
+
+	public Double getWeeklyRate() {
+		return weeklyRate;
+	}
+
+	public void setWeeklyRate(Double weeklyRate) {
+		this.weeklyRate = weeklyRate;
+	}
+
+	public Double getMonthlyRate() {
+		return monthlyRate;
+	}
+
+	public void setMonthlyRate(Double monthlyRate) {
+		this.monthlyRate = monthlyRate;
+	}
+
+	public double getSecurityDeposit() {
+		return securityDeposit;
+	}
+
+	public void setSecurityDeposit(double securityDeposit) {
+		this.securityDeposit = securityDeposit;
+	}
+
+	public String getAdditionalFees() {
+		return additionalFees;
+	}
+
+	public void setAdditionalFees(String additionalFees) {
+		this.additionalFees = additionalFees;
+	}
+
+	@ManyToOne
+    private CarRenter renter;
+
+    // Getters & Setters
     public int getCarId() {
         return carId;
     }
@@ -64,14 +113,6 @@ public class Car {
         this.model = model;
     }
 
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
     public String getYear() {
         return year;
     }
@@ -86,6 +127,14 @@ public class Car {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     public String getFuelType() {
@@ -112,23 +161,19 @@ public class Car {
         this.mileage = mileage;
     }
 
-	public User getCarOwner() {
-		return carOwner;
-	}
+    public CarStatus getCarStatus() {
+        return carStatus;
+    }
 
-	public void setCarOwner(User carOwner) {
-		this.carOwner = carOwner;
-	}
+    public void setCarStatus(CarStatus carStatus) {
+        this.carStatus = carStatus;
+    }
 
-	public CarStatus getCarStatus() {
-		return carStatus;
-	}
+    public CarRenter getRenter() {
+        return renter;
+    }
 
-	public void setCarStatus(CarStatus carStatus) {
-		this.carStatus = carStatus;
-	}
-    
-    
-
-
+    public void setRenter(CarRenter renter) {
+        this.renter = renter;
+    }
 }
